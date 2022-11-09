@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="779.0" prefWidth="1320.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.demo.HelloController">
+   <left>
+      <VBox prefHeight="779.0" prefWidth="242.0" spacing="20.0" BorderPane.alignment="CENTER">
+         <children>
+            <ComboBox fx:id="containerType" onAction="#initialize" prefHeight="27.0" prefWidth="243.0" promptText="Container type" />
+            <DatePicker fx:id="addedDate" prefHeight="26.0" prefWidth="247.0" promptText="Added date" />
+            <TextField fx:id="media" promptText="Meida" />
+            <TextField fx:id="handlerPerson" layoutX="10.0" layoutY="63.0" promptText="Handler" />
+            <TextField fx:id="subHistory" layoutX="10.0" layoutY="89.0" promptText="Subculture history" />
+            <DatePicker fx:id="contaminationDate" prefHeight="26.0" prefWidth="251.0" promptText="Contamination date" />
+            <HBox prefHeight="100.0" prefWidth="200.0">
+               <children>
+                  <Button fx:id="addRecordBtn" mnemonicParsing="false" onAction="#addRecordBtnClicked" prefHeight="30.0" prefWidth="116.0" text="Add Record" />
+                  <Button fx:id="clearBtn" mnemonicParsing="false" onAction="#clearButtonClicked" prefHeight="30.0" prefWidth="126.0" text="Clear" />
+               </children>
+            </HBox>
+         </children>
+         <BorderPane.margin>
+            <Insets bottom="10.0" top="25.0" />
+         </BorderPane.margin>
+         <padding>
+            <Insets bottom="25.0" />
+         </padding>
+      </VBox>
+   </left>
+   <center>
+      <TableView fx:id="sampleTable" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+        <columns>
+          <TableColumn fx:id="containerCol" prefWidth="120.0" text="Container type" />
+          <TableColumn fx:id="addedDateCol" prefWidth="120.0" text="Added date" />
+            <TableColumn fx:id="mediaCol" prefWidth="120.0" text="Media" />
+            <TableColumn fx:id="handlerCol" prefWidth="120.0" text="Handler" />
+            <TableColumn fx:id="historyCol" prefWidth="120.0" text="Subculture history" />
+            <TableColumn fx:id="contaminationDateCol" prefWidth="120.0" text="Contamination date" />
+        </columns>
+      </TableView>
+   </center>
+   <top>
+      <MenuBar BorderPane.alignment="CENTER">
+        <menus>
+          <Menu mnemonicParsing="false" text="File">
+            <items>
+              <MenuItem mnemonicParsing="false" text="Close" />
+            </items>
+          </Menu>
+          <Menu mnemonicParsing="false" text="Edit">
+            <items>
+              <MenuItem mnemonicParsing="false" text="Delete" />
+            </items>
+          </Menu>
+          <Menu mnemonicParsing="false" text="Help">
+            <items>
+              <MenuItem mnemonicParsing="false" text="About" />
+            </items>
+          </Menu>
+        </menus>
+         <BorderPane.margin>
+            <Insets />
+         </BorderPane.margin>
+      </MenuBar>
+   </top>
+   <right>
+      <VBox prefHeight="757.0" prefWidth="252.0" spacing="20.0" BorderPane.alignment="CENTER">
+         <children>
+            <TextField promptText="Filter" />
+            <Button fx:id="searchBtn" mnemonicParsing="false" prefHeight="30.0" prefWidth="254.0" text="Search" />
+         </children>
+         <BorderPane.margin>
+            <Insets top="25.0" />
+         </BorderPane.margin>
+      </VBox>
+   </right>
+   <bottom>
+      <HBox prefHeight="129.0" prefWidth="1320.0" BorderPane.alignment="CENTER">
+         <children>
+            <Button fx:id="backupBtn" mnemonicParsing="false" text="Backup" />
+         </children>
+      </HBox>
+   </bottom>
+</BorderPane>
