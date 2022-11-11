@@ -14,11 +14,11 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.demo.HelloController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1329.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.demo.HelloController">
    <left>
       <VBox prefHeight="779.0" prefWidth="242.0" spacing="20.0" BorderPane.alignment="CENTER">
          <children>
-            <ComboBox fx:id="containerType" onAction="#initialize" prefHeight="27.0" prefWidth="243.0" promptText="Container type">
+            <ComboBox fx:id="containerType" prefHeight="27.0" prefWidth="243.0" promptText="Container type">
                <VBox.margin>
                   <Insets left="10.0" right="10.0" />
                </VBox.margin></ComboBox>
@@ -64,7 +64,7 @@
       </VBox>
    </left>
    <center>
-      <TableView fx:id="sampleTable" prefHeight="623.0" prefWidth="771.0" BorderPane.alignment="CENTER">
+      <TableView fx:id="sampleTable" prefHeight="580.0" prefWidth="847.0" BorderPane.alignment="CENTER">
         <columns>
           <TableColumn fx:id="containerCol" prefWidth="120.0" text="Container type" />
           <TableColumn fx:id="addedDateCol" prefWidth="120.0" text="Added date" />
@@ -72,6 +72,7 @@
             <TableColumn fx:id="handlerCol" prefWidth="130.0" text="Handler" />
             <TableColumn fx:id="historyCol" prefWidth="130.0" text="Subculture history" />
             <TableColumn fx:id="contaminationDateCol" prefWidth="150.0" text="Contamination date" />
+            <TableColumn fx:id="deleteCol" prefWidth="75.0" text="Delete" />
         </columns>
          <BorderPane.margin>
             <Insets left="10.0" right="10.0" />
@@ -79,16 +80,13 @@
       </TableView>
    </center>
    <top>
-      <MenuBar BorderPane.alignment="CENTER">
+      <MenuBar fx:id="menuBar" BorderPane.alignment="CENTER">
         <menus>
           <Menu mnemonicParsing="false" text="File">
             <items>
-              <MenuItem mnemonicParsing="false" text="Close" />
-            </items>
-          </Menu>
-          <Menu mnemonicParsing="false" text="Edit">
-            <items>
-              <MenuItem mnemonicParsing="false" text="Delete" />
+              <MenuItem fx:id="adminMenu" mnemonicParsing="false" onAction="#adminMenuClicked" text="Admin" />
+                  <MenuItem fx:id="backupMenu" mnemonicParsing="false" onAction="#backupMenuClicked" text="Backup" />
+                  <MenuItem fx:id="exitMenu" mnemonicParsing="false" onAction="#exitButtonClicked" text="Exit" />
             </items>
           </Menu>
           <Menu mnemonicParsing="false" text="Help">
@@ -106,7 +104,7 @@
       </MenuBar>
    </top>
    <right>
-      <VBox prefHeight="757.0" prefWidth="252.0" spacing="20.0" BorderPane.alignment="CENTER">
+      <VBox prefHeight="529.0" prefWidth="220.0" spacing="20.0" BorderPane.alignment="CENTER">
          <children>
             <HBox prefHeight="29.0" prefWidth="252.0">
                <children>
@@ -129,13 +127,6 @@
       </VBox>
    </right>
    <bottom>
-      <HBox prefHeight="129.0" prefWidth="1320.0" BorderPane.alignment="CENTER">
-         <children>
-            <Button fx:id="backupBtn" mnemonicParsing="false" text="Backup">
-               <HBox.margin>
-                  <Insets left="10.0" />
-               </HBox.margin></Button>
-         </children>
-      </HBox>
+      <HBox prefHeight="37.0" prefWidth="1329.0" BorderPane.alignment="CENTER" />
    </bottom>
 </BorderPane>

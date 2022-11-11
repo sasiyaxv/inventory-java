@@ -1,11 +1,8 @@
 package com.example.demo;
-import java.sql.*;
-import java.time.LocalDate;
 
 
 import java.sql.Connection;
 import java.sql.DriverManager;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
@@ -13,47 +10,37 @@ public class SqliteConnection
 {
     public static void main(String[] args)
     {
-        Connection connection = null;
-        try
-        {
-            // create a database connection
-            connection = DriverManager.getConnection("jdbc:sqlite:samples.db");
-            Statement statement = connection.createStatement();
-            statement.setQueryTimeout(30);  // set timeout to 30 sec.
+        Connection c = null;
+        Statement stmt = null;
 
-//            statement.executeUpdate("drop table if exists person");
-//            statement.executeUpdate("create table person (id integer, name string)");
-            statement.executeUpdate("insert into samples values('s', 'leo','s', 'leo','s', 'leo',11)");
-//            statement.executeUpdate("insert into person values(2, 'yui')");
-//            ResultSet rs = statement.executeQuery("select * from person");
-//            while(rs.next())
-//            {
-//                // read the result set
-//                System.out.println("name = " + rs.getString("name"));
-//                System.out.println("id = " + rs.getInt("id"));
-//            }
+        try {
+            Class.forName("org.sqlite.JDBC");
+            c = DriverManager.getConnection("jdbc:sqlite:samples.db");
+        } catch ( Exception e ) {
+            System.err.println( e.getClass().getName() + ": " + e.getMessage() );
+            System.exit(0);
         }
-        catch(SQLException e)
-        {
-            // if the error message is "out of memory",
-            // it probably means no database file is found
-            System.err.println(e.getMessage());
+        System.out.println("Opened database successfully");
+
+        try {
+            stmt = c.createStatement();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
         }
-        finally
-        {
-            try
-            {
-                if(connection != null)
-                    connection.close();
-            }
-            catch(SQLException e)
-            {
-                // connection close failed.
-                System.err.println(e.getMessage());
-            }
+        String sql = "SELECT * FROM samples";
+        try {
+           int rs =  stmt.executeUpdate(sql);
+            System.out.println(rs);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
         }
+
     }
-}
+
+        public void insert(String name,String age) {}
+
+    }
+
 
 //public class SqliteConnection {
 //
@@ -81,12 +68,12 @@ public class SqliteConnection
 ////        }
 //        return conn;
 //    }
-//
+
 //    public void insert(String name,String age) {
 //        String sql = "INSERT INTO samples(name,age) VALUES(?,?)";
 //
-////        String objectId,String containerType, String addedDate,String media,String handler,String subcultureHistory,String contaminationDate
-////        "INSERT INTO samples(objectId,typeOfContainer,date,media,handler,subcultureHistory,contaminationDate) VALUES(?,?,?,?,?,?,?)
+//        String objectId,String containerType, String addedDate,String media,String handler,String subcultureHistory,String contaminationDate
+//        "INSERT INTO samples(objectId,typeOfContainer,date,media,handler,subcultureHistory,contaminationDate) VALUES(?,?,?,?,?,?,?)
 //
 //        try (Connection conn = this.connect();
 //             PreparedStatement pstmt = conn.prepareStatement(sql)) {

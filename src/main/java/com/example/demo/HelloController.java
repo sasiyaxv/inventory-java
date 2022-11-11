@@ -3,6 +3,7 @@ package com.example.demo;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
@@ -14,8 +15,8 @@ import java.util.ResourceBundle;
 
 public class HelloController implements Initializable {
 
-    ObservableList<Record> sampleList = FXCollections.observableArrayList();
-    FilteredList<Record> filteredList = new FilteredList<>(sampleList, p -> true);
+    public ObservableList<Record> sampleList = FXCollections.observableArrayList();
+    public FilteredList<Record> filteredList = new FilteredList<>(sampleList, p -> true);
 
 //    Test commit
 
@@ -40,15 +41,19 @@ public class HelloController implements Initializable {
     @FXML
     private TableColumn<Record, String> containerCol;
 
+    @FXML
+    private TableColumn<Record,Button> deleteCol;
+
 
     @FXML
     private ComboBox<String> containerType;
 
-    @FXML
-    private void initialize(){
-        ObservableList<String> list = FXCollections.observableArrayList("1","2","3","4");
-        containerType.setItems(list);
-    }
+
+//    @FXML
+//    private void initialize(){
+//        ObservableList<String> list = FXCollections.observableArrayList("1","2","3","4");
+//        containerType.setItems(list);
+//    }
 
     @FXML
     private DatePicker addedDate;
@@ -66,6 +71,9 @@ public class HelloController implements Initializable {
     private DatePicker contaminationDate;
 
     @FXML
+    private Button delete;
+
+    @FXML
     private Button addRecordBtn;
 
     @FXML
@@ -79,6 +87,57 @@ public class HelloController implements Initializable {
 
     @FXML
     private Button searchBtn;
+
+//    Menu
+    @FXML
+    private MenuBar menuBar;
+
+    @FXML
+    private MenuItem adminMenu;
+
+    @FXML
+    private MenuItem backupMenu;
+
+    @FXML
+    private MenuItem exitMenu;
+
+
+    @FXML
+    private void exitButtonClicked(){
+        System.exit(0);
+    }
+
+    public void backupMenuClicked(){
+        System.out.println("backup");
+    }
+
+    public void adminMenuClicked(){
+        System.out.println("Admin");
+
+    }
+
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+
+        ObservableList<String> containerType = FXCollections.observableArrayList("1","2","3","4");
+        this.containerType.setItems(containerType);
+
+        ObservableList<String> filterByArray = FXCollections.observableArrayList("Container Type","Added Date","Media","Handler Person","Subculture History","Contamination Date");
+        this.filterBy.setItems(filterByArray);
+
+        containerCol.setCellValueFactory(new PropertyValueFactory<Record,String>("containerType"));
+        addedDateCol.setCellValueFactory(new PropertyValueFactory<Record,String>("addedDate"));
+        mediaCol.setCellValueFactory(new PropertyValueFactory<Record,String>("media"));
+        handlerCol.setCellValueFactory(new PropertyValueFactory<Record,String>("handlerPerson"));
+        historyCol.setCellValueFactory(new PropertyValueFactory<Record,String>("subcultureHistory"));
+        contaminationDateCol.setCellValueFactory(new PropertyValueFactory<Record,String>("contaminationDate"));
+        deleteCol.setCellValueFactory(new PropertyValueFactory<Record,Button>("delete"));
+
+
+
+    }
+
+
 
 
 
@@ -95,8 +154,8 @@ public class HelloController implements Initializable {
             AlertGenerate alertGenerate = new AlertGenerate();
             alertGenerate.alertShow("ERROR","Incomplete Form","Please complete relevant fields.");
         } else {
-            Record newRecord = new Record(containerType.getValue(), addedDate.getValue().toString(), media.getText(), handlerPerson.getText(), subHistory.getText(), contaminationDate.getValue().toString());
-
+//            Record newRecord = new Record(containerType.getValue(), addedDate.getValue().toString(), media.getText(), handlerPerson.getText(), subHistory.getText(), contaminationDate.getValue().toString());
+            Record newRecord = new Record(containerType.getValue(), addedDate.getValue().toString(), media.getText(), handlerPerson.getText(), subHistory.getText(), contaminationDate.getValue().toString(),new Button("Delete"));
             sampleList.add(newRecord);
             sampleTable.setItems(sampleList);
             clearButtonClicked();
@@ -173,25 +232,9 @@ public class HelloController implements Initializable {
 
 
 
-    @Override
-    public void initialize(URL url, ResourceBundle resourceBundle) {
-
-        ObservableList<String> containerType = FXCollections.observableArrayList("1","2","3","4");
-        this.containerType.setItems(containerType);
-
-        ObservableList<String> filterByArray = FXCollections.observableArrayList("Container Type","Added Date","Media","Handler Person","Subculture History","Contamination Date");
-        this.filterBy.setItems(filterByArray);
-
-        containerCol.setCellValueFactory(new PropertyValueFactory<Record,String>("containerType"));
-        addedDateCol.setCellValueFactory(new PropertyValueFactory<Record,String>("addedDate"));
-        mediaCol.setCellValueFactory(new PropertyValueFactory<Record,String>("media"));
-        handlerCol.setCellValueFactory(new PropertyValueFactory<Record,String>("handlerPerson"));
-        historyCol.setCellValueFactory(new PropertyValueFactory<Record,String>("subcultureHistory"));
-        contaminationDateCol.setCellValueFactory(new PropertyValueFactory<Record,String>("contaminationDate"));
 
 
 
-    }
 }
 
 

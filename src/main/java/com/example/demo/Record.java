@@ -1,6 +1,7 @@
 package com.example.demo;
 
-import java.time.LocalDate;
+import javafx.collections.ObservableList;
+import javafx.scene.control.Button;
 
 public class Record {
     private String containerType;
@@ -9,6 +10,8 @@ public class Record {
     private String handlerPerson;
     private String subcultureHistory;
     private String contaminationDate;
+    private Button delete;
+
 
     public Record(String containerType, String addedDate, String media, String handlerPerson, String subcultureHistory, String contaminationDate) {
         this.containerType = containerType;
@@ -19,10 +22,23 @@ public class Record {
         this.contaminationDate = contaminationDate;
     }
 
+    public Record(String containerType, String addedDate, String media, String handlerPerson, String subcultureHistory, String contaminationDate, Button delete) {
+        this.containerType = containerType;
+        this.addedDate = addedDate;
+        this.media = media;
+        this.handlerPerson = handlerPerson;
+        this.subcultureHistory = subcultureHistory;
+        this.contaminationDate = contaminationDate;
+        this.delete = delete;
 
+        delete.setOnAction(e->{
 
+        });
+    }
 
-
+    public Button getDelete() {
+        return delete;
+    }
 
     public String getContainerType() {
         return containerType;
