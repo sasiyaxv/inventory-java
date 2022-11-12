@@ -12,8 +12,11 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import java.net.URL;
 import java.time.LocalDate;
 import java.util.ResourceBundle;
+import java.util.UUID;
 
 public class HelloController implements Initializable {
+
+    SqliteConnection sqliteConnection = new SqliteConnection();
 
     public ObservableList<Record> sampleList = FXCollections.observableArrayList();
     public FilteredList<Record> filteredList = new FilteredList<>(sampleList, p -> true);
@@ -116,8 +119,16 @@ public class HelloController implements Initializable {
 
     }
 
+    public ObservableList<Record> returnList(){
+        return sampleList;
+    }
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+
+        sampleList.addAll(sqliteConnection.readFromDatabase());
+        sampleTable.setItems(sampleList);
+
 
         ObservableList<String> containerType = FXCollections.observableArrayList("1","2","3","4");
         this.containerType.setItems(containerType);
@@ -157,7 +168,10 @@ public class HelloController implements Initializable {
 //            Record newRecord = new Record(containerType.getValue(), addedDate.getValue().toString(), media.getText(), handlerPerson.getText(), subHistory.getText(), contaminationDate.getValue().toString());
             Record newRecord = new Record(containerType.getValue(), addedDate.getValue().toString(), media.getText(), handlerPerson.getText(), subHistory.getText(), contaminationDate.getValue().toString(),new Button("Delete"));
             sampleList.add(newRecord);
-            sampleTable.setItems(sampleList);
+
+            String uniqueID = UUID.randomUUID().toString();
+            sqliteConnection.writeToDatabase(containerType.getValue(), addedDate.getValue().toString(), media.getText(), handlerPerson.getText(), subHistory.getText(), contaminationDate.getValue().toString(),uniqueID);
+
             clearButtonClicked();
 
         }

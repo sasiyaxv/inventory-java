@@ -1,107 +1,104 @@
 package com.example.demo;
 
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
-import java.sql.Statement;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 
-public class SqliteConnection
-{
-    public static void main(String[] args)
-    {
-        Connection c = null;
-        Statement stmt = null;
+import java.sql.*;
+
+public class SqliteConnection {
+
+    public Connection connectDatabase() {
+
+        Connection dbConnect = null;
 
         try {
             Class.forName("org.sqlite.JDBC");
-            c = DriverManager.getConnection("jdbc:sqlite:samples.db");
-        } catch ( Exception e ) {
-            System.err.println( e.getClass().getName() + ": " + e.getMessage() );
+            dbConnect = DriverManager.getConnection("jdbc:sqlite:samples.db");
+        } catch (Exception e) {
+            System.err.println(e.getClass().getName() + ": " + e.getMessage());
             System.exit(0);
         }
         System.out.println("Opened database successfully");
 
-        try {
-            stmt = c.createStatement();
+        return dbConnect;
+
+    }
+
+    public void writeToDatabase(String containerType, String addedDate, String media, String handler, String subcultureHistory, String contaminationDate, String objectId
+    ) {
+        String sql = "INSERT INTO samples(containerType,addedDate,media,handler,subcultureHistory,contaminationDate,objectId) VALUES(?,?,?,?,?,?,?)";
+
+        try (Connection conn = this.connectDatabase();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+            pstmt.setString(1, containerType);
+            pstmt.setString(2, addedDate);
+            pstmt.setString(3, media);
+            pstmt.setString(4, handler);
+            pstmt.setString(5, subcultureHistory);
+            pstmt.setString(6, contaminationDate);
+            pstmt.setString(7, objectId);
+
+            pstmt.executeUpdate();
         } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-        String sql = "SELECT * FROM samples";
-        try {
-           int rs =  stmt.executeUpdate(sql);
-            System.out.println(rs);
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
+            System.out.println(e.getMessage());
         }
 
     }
 
-        public void insert(String name,String age) {}
+    public ObservableList<Record> readFromDatabase() {
+
+        ObservableList<Record> readList = FXCollections.observableArrayList();
+
+        String sql = "SELECT containerType,addedDate,media,handler,subcultureHistory,contaminationDate,objectId FROM samples";
+        try (Connection conn = this.connectDatabase();
+             Statement stmt = conn.createStatement();
+             ResultSet rs = stmt.executeQuery(sql)) {
+
+            // loop through the result set
+            while (rs.next()) {
+               String containerType =  rs.getString("containerType");
+                String addedDate =  rs.getString("addedDate");
+                String media =  rs.getString("media");
+                String handler =  rs.getString("handler");
+                String subcultureHistory =  rs.getString("subcultureHistory");
+                String contaminationDate =  rs.getString("contaminationDate");
+                String objectId =  rs.getString("objectId");
+
+
+                Record record = new Record(rs.getString("containerType"),addedDate,media,handler,subcultureHistory,contaminationDate);
+                readList.add(record);
+
+
+
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        System.out.println(readList);
+        return readList;
+    }
+
+    public void deleteRecord(String objectId) {
+        String sql = "DELETE FROM samples WHERE objectId= ?";
+        try (Connection conn = this.connectDatabase();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+            pstmt.setString(1, objectId);
+            pstmt.executeUpdate();
+
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
 
     }
 
 
-//public class SqliteConnection {
-//
-//    public Connection  connect() {
-//        Connection conn = null;
-//        try {
-//            // db parameters
-//            String url = "jdbc:sqlite:samples.db";
-//            // create a connection to the database
-//            conn = DriverManager.getConnection(url);
-//
-//            System.out.println("Connection to SQLite has been established.");
-//
-//        } catch (SQLException e) {
-//            System.out.println(e.getMessage());
-//        }
-////        } finally {
-////            try {
-////                if (conn != null) {
-////                    conn.close();
-////                }
-////            } catch (SQLException ex) {
-////                System.out.println(ex.getMessage());
-////            }
-////        }
-//        return conn;
-//    }
+    public static void main(String[] args) {
+        SqliteConnection sqliteConnection = new SqliteConnection();
+//        sqliteConnection.deleteRecord(1);
+        sqliteConnection.readFromDatabase();
 
-//    public void insert(String name,String age) {
-//        String sql = "INSERT INTO samples(name,age) VALUES(?,?)";
-//
-//        String objectId,String containerType, String addedDate,String media,String handler,String subcultureHistory,String contaminationDate
-//        "INSERT INTO samples(objectId,typeOfContainer,date,media,handler,subcultureHistory,contaminationDate) VALUES(?,?,?,?,?,?,?)
-//
-//        try (Connection conn = this.connect();
-//             PreparedStatement pstmt = conn.prepareStatement(sql)) {
-//            pstmt.setString(1, name);
-//            pstmt.setString(2, age);
-////            pstmt.setString(3, addedDate);
-////            pstmt.setString(4, media);
-////            pstmt.setString(5, handler);
-////            pstmt.setString(6, subcultureHistory);
-////            pstmt.setString(7, contaminationDate);
-//            pstmt.executeUpdate();
-//        } catch (SQLException e) {
-//            System.out.println(e.getMessage());
-//        }
-//    }
-//
-//    public void select(){
-//
-//    }
-//
-//
-//    /**
-//     * @param args the command line arguments
-//     */
-//    public static void main(String[] args) {
-////        connect();
-//        SqliteConnection sqliteConnection = new SqliteConnection();
-//        sqliteConnection.insert("s","s");
-//
-//    }
-//}
+    }
+}
