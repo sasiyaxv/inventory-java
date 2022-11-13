@@ -1,7 +1,6 @@
 package com.example.demo;
-
-import javafx.collections.ObservableList;
 import javafx.scene.control.Button;
+
 
 public class Record {
     private String containerType;
@@ -10,6 +9,8 @@ public class Record {
     private String handlerPerson;
     private String subcultureHistory;
     private String contaminationDate;
+
+    private String objectId;
     private Button delete;
 
 
@@ -32,8 +33,26 @@ public class Record {
         this.delete = delete;
 
         delete.setOnAction(e->{
+            System.out.println("DElete");
+//            HelloController helloController = new HelloController();
+//            helloController.returnList().remove(objectId);
+
+            SqliteConnection sqliteConnection = new SqliteConnection();
+            sqliteConnection.deleteRecord(objectId);
+
 
         });
+    }
+
+    public Record(String containerType, String addedDate, String media, String handlerPerson, String subcultureHistory, String contaminationDate, String objectId, Button delete) {
+        this.containerType = containerType;
+        this.addedDate = addedDate;
+        this.media = media;
+        this.handlerPerson = handlerPerson;
+        this.subcultureHistory = subcultureHistory;
+        this.contaminationDate = contaminationDate;
+        this.objectId = objectId;
+        this.delete = delete;
     }
 
     public Button getDelete() {
@@ -62,5 +81,9 @@ public class Record {
 
     public String getContaminationDate() {
         return contaminationDate;
+    }
+
+    public String getObjectId() {
+        return objectId;
     }
 }

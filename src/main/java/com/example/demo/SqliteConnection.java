@@ -1,8 +1,7 @@
 package com.example.demo;
-
-
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.scene.control.Button;
 
 import java.sql.*;
 
@@ -67,7 +66,7 @@ public class SqliteConnection {
                 String objectId =  rs.getString("objectId");
 
 
-                Record record = new Record(rs.getString("containerType"),addedDate,media,handler,subcultureHistory,contaminationDate);
+                Record record = new Record(containerType,addedDate,media,handler,subcultureHistory,contaminationDate,objectId,new Button("Delete"));
                 readList.add(record);
 
 
@@ -87,6 +86,7 @@ public class SqliteConnection {
 
             pstmt.setString(1, objectId);
             pstmt.executeUpdate();
+            System.out.println("Deleted frm db");
 
         } catch (SQLException e) {
             System.out.println(e.getMessage());
@@ -96,9 +96,10 @@ public class SqliteConnection {
 
 
     public static void main(String[] args) {
-        SqliteConnection sqliteConnection = new SqliteConnection();
+//        SqliteConnection sqliteConnection = new SqliteConnection();
+//        sqliteConnection.deleteRecord("70b496f8-8e81-4b87-800a-8b7f5332edf8");
 //        sqliteConnection.deleteRecord(1);
-        sqliteConnection.readFromDatabase();
+//        sqliteConnection.readFromDatabase();
 
     }
 }

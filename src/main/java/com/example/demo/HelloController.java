@@ -1,27 +1,35 @@
 package com.example.demo;
-
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.Stage;
 
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.Serializable;
 import java.net.URL;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.ResourceBundle;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
-public class HelloController implements Initializable {
+public class HelloController implements Initializable, Serializable {
 
     SqliteConnection sqliteConnection = new SqliteConnection();
 
     public ObservableList<Record> sampleList = FXCollections.observableArrayList();
     public FilteredList<Record> filteredList = new FilteredList<>(sampleList, p -> true);
 
-//    Test commit
+    ArrayList<Record> backupList = new ArrayList<>();
 
     @FXML
     private TableView<Record> sampleTable;
@@ -50,13 +58,6 @@ public class HelloController implements Initializable {
 
     @FXML
     private ComboBox<String> containerType;
-
-
-//    @FXML
-//    private void initialize(){
-//        ObservableList<String> list = FXCollections.observableArrayList("1","2","3","4");
-//        containerType.setItems(list);
-//    }
 
     @FXML
     private DatePicker addedDate;
@@ -112,10 +113,36 @@ public class HelloController implements Initializable {
 
     public void backupMenuClicked(){
         System.out.println("backup");
+        System.out.println("SAVED"+sampleList);
+
+        try {
+            FileWriter writer = new FileWriter("records.txt");
+            for (Record record : sampleList) {
+                writer.write(record.getObjectId() + "," + record.getContainerType() +","+record.getAddedDate() + "," + record.getMedia() +","+record.getHandlerPerson() + "," + record.getSubcultureHistory() +","+record.getContaminationDate()+ "\n");
+            }
+            writer.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+
+
     }
 
     public void adminMenuClicked(){
-        System.out.println("Admin");
+
+        Stage stage = new Stage();
+        FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("admin-view.fxml"));
+        Scene scene = null;
+        try {
+            scene = new Scene(fxmlLoader.load());
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        stage.setTitle("Admin");
+        stage.setScene(scene);
+        stage.show();
+
 
     }
 
@@ -146,11 +173,9 @@ public class HelloController implements Initializable {
 
 
 
+
+
     }
-
-
-
-
 
     @FXML
     private void addRecordBtnClicked() {
@@ -165,11 +190,11 @@ public class HelloController implements Initializable {
             AlertGenerate alertGenerate = new AlertGenerate();
             alertGenerate.alertShow("ERROR","Incomplete Form","Please complete relevant fields.");
         } else {
-//            Record newRecord = new Record(containerType.getValue(), addedDate.getValue().toString(), media.getText(), handlerPerson.getText(), subHistory.getText(), contaminationDate.getValue().toString());
-            Record newRecord = new Record(containerType.getValue(), addedDate.getValue().toString(), media.getText(), handlerPerson.getText(), subHistory.getText(), contaminationDate.getValue().toString(),new Button("Delete"));
+            String uniqueID = UUID.randomUUID().toString();
+
+            Record newRecord = new Record(containerType.getValue(), addedDate.getValue().toString(), media.getText(), handlerPerson.getText(), subHistory.getText(), contaminationDate.getValue().toString(),uniqueID,new Button("Delete"));
             sampleList.add(newRecord);
 
-            String uniqueID = UUID.randomUUID().toString();
             sqliteConnection.writeToDatabase(containerType.getValue(), addedDate.getValue().toString(), media.getText(), handlerPerson.getText(), subHistory.getText(), contaminationDate.getValue().toString(),uniqueID);
 
             clearButtonClicked();
@@ -218,15 +243,7 @@ public class HelloController implements Initializable {
                 }
             });
         }
-
-
-
-
     }
-
-
-
-
 
     @FXML
     private void clearButtonClicked() {
