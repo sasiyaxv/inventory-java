@@ -14,7 +14,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1329.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.demo.HelloController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="832.0" prefWidth="1543.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.demo.HelloController">
    <left>
       <VBox prefHeight="779.0" prefWidth="242.0" spacing="20.0" BorderPane.alignment="CENTER">
          <children>
@@ -38,10 +38,6 @@
                <VBox.margin>
                   <Insets left="10.0" right="10.0" />
                </VBox.margin></TextField>
-            <DatePicker fx:id="contaminationDate" prefHeight="26.0" prefWidth="251.0" promptText="Contamination date">
-               <VBox.margin>
-                  <Insets left="10.0" right="10.0" />
-               </VBox.margin></DatePicker>
             <HBox prefHeight="100.0" prefWidth="200.0">
                <children>
                   <Button fx:id="addRecordBtn" mnemonicParsing="false" onAction="#addRecordBtnClicked" prefHeight="30.0" prefWidth="116.0" text="Add Record">
@@ -72,7 +68,9 @@
             <TableColumn fx:id="handlerCol" prefWidth="130.0" text="Handler" />
             <TableColumn fx:id="historyCol" prefWidth="130.0" text="Subculture history" />
             <TableColumn fx:id="contaminationDateCol" prefWidth="150.0" text="Contamination date" />
-            <TableColumn fx:id="deleteCol" prefWidth="75.0" text="Delete" />
+            <TableColumn fx:id="editCol" prefWidth="75.0" text="Edit" />
+            <TableColumn fx:id="deleteCol" prefWidth="84.0" text="Delete" />
+            <TableColumn fx:id="objectIdCol" prefWidth="130.0" text="Id" />
         </columns>
          <BorderPane.margin>
             <Insets left="10.0" right="10.0" />

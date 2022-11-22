@@ -13,6 +13,10 @@ public class Record {
     private String objectId;
     private Button delete;
 
+    private Button edit;
+
+    private  HelloController helloController;
+
 
     public Record(String containerType, String addedDate, String media, String handlerPerson, String subcultureHistory, String contaminationDate) {
         this.containerType = containerType;
@@ -31,20 +35,9 @@ public class Record {
         this.subcultureHistory = subcultureHistory;
         this.contaminationDate = contaminationDate;
         this.delete = delete;
-
-        delete.setOnAction(e->{
-            System.out.println("DElete");
-//            HelloController helloController = new HelloController();
-//            helloController.returnList().remove(objectId);
-
-            SqliteConnection sqliteConnection = new SqliteConnection();
-            sqliteConnection.deleteRecord(objectId);
-
-
-        });
     }
 
-    public Record(String containerType, String addedDate, String media, String handlerPerson, String subcultureHistory, String contaminationDate, String objectId, Button delete) {
+    public Record(String containerType, String addedDate, String media, String handlerPerson, String subcultureHistory, String contaminationDate, String objectId, Button delete, HelloController helloController,Button edit ) {
         this.containerType = containerType;
         this.addedDate = addedDate;
         this.media = media;
@@ -53,6 +46,58 @@ public class Record {
         this.contaminationDate = contaminationDate;
         this.objectId = objectId;
         this.delete = delete;
+        this.helloController = helloController;
+        this.edit = edit;
+
+        delete.setOnAction(e->{
+
+            this.helloController.adminMenuClicked();
+
+            System.out.println("DELETE11111" + this.objectId );
+            deleteRecord(this.objectId);
+            this.helloController.fetchDatabse();
+
+        });
+
+
+
+        edit.setOnAction(e->{
+            this.helloController.adminMenuClicked();
+
+
+            System.out.println("Edit");
+
+
+
+            this.helloController.fetchDatabse();
+        });
+    }
+
+    SqliteConnection sqliteConnection = new SqliteConnection();
+
+    public Record(String containerType, String addedDate, String media, String handlerPerson, String subcultureHistory, String objectId, Button delete, Button edit, HelloController helloController) {
+        this.containerType = containerType;
+        this.addedDate = addedDate;
+        this.media = media;
+        this.handlerPerson = handlerPerson;
+        this.subcultureHistory = subcultureHistory;
+        this.objectId = objectId;
+        this.delete = delete;
+        this.edit = edit;
+        this.helloController = helloController;
+
+    }
+
+    public void deleteRecord(String objectId){
+
+     sqliteConnection.deleteRecord(objectId);
+
+
+
+    }
+
+    public Button getEdit() {
+        return edit;
     }
 
     public Button getDelete() {

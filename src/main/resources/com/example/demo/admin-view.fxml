@@ -8,6 +8,6 @@
    <children>
       <TextField fx:id="userNameField" layoutX="220.0" layoutY="115.0" promptText="Username" />
       <TextField fx:id="passWordField" layoutX="220.0" layoutY="175.0" promptText="Password" />
-      <Button fx:id="loginBtn" layoutX="221.0" layoutY="240.0" mnemonicParsing="false" onAction="#loginBtnClicked" prefHeight="26.0" prefWidth="159.0" text="Login" />
+      <Button fx:id="confirmBtn" layoutX="221.0" layoutY="240.0" mnemonicParsing="false" onAction="#confirmBtnClicked" prefHeight="26.0" prefWidth="159.0" text="Login" />
    </children>
 </Pane>

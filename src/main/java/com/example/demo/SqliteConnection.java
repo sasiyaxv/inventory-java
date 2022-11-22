@@ -7,6 +7,8 @@ import java.sql.*;
 
 public class SqliteConnection {
 
+    private  HelloController helloController;
+
     public Connection connectDatabase() {
 
         Connection dbConnect = null;
@@ -24,9 +26,9 @@ public class SqliteConnection {
 
     }
 
-    public void writeToDatabase(String containerType, String addedDate, String media, String handler, String subcultureHistory, String contaminationDate, String objectId
+    public void writeToDatabase(String containerType, String addedDate, String media, String handler, String subcultureHistory , String objectId
     ) {
-        String sql = "INSERT INTO samples(containerType,addedDate,media,handler,subcultureHistory,contaminationDate,objectId) VALUES(?,?,?,?,?,?,?)";
+        String sql = "INSERT INTO samples(containerType,addedDate,media,handler,subcultureHistory,objectId) VALUES(?,?,?,?,?,?)";
 
         try (Connection conn = this.connectDatabase();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
@@ -36,8 +38,7 @@ public class SqliteConnection {
             pstmt.setString(3, media);
             pstmt.setString(4, handler);
             pstmt.setString(5, subcultureHistory);
-            pstmt.setString(6, contaminationDate);
-            pstmt.setString(7, objectId);
+            pstmt.setString(6, objectId);
 
             pstmt.executeUpdate();
         } catch (SQLException e) {
@@ -46,7 +47,7 @@ public class SqliteConnection {
 
     }
 
-    public ObservableList<Record> readFromDatabase() {
+    public ObservableList<Record> readFromDatabase(HelloController helloController) {
 
         ObservableList<Record> readList = FXCollections.observableArrayList();
 
@@ -66,7 +67,7 @@ public class SqliteConnection {
                 String objectId =  rs.getString("objectId");
 
 
-                Record record = new Record(containerType,addedDate,media,handler,subcultureHistory,contaminationDate,objectId,new Button("Delete"));
+                Record record = new Record(containerType,addedDate,media,handler,subcultureHistory,contaminationDate,objectId,new Button("Delete"), helloController,new Button("Edit"));
                 readList.add(record);
 
 

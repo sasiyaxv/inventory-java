@@ -16,15 +16,20 @@ import java.io.IOException;
 import java.io.Serializable;
 import java.net.URL;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.ResourceBundle;
-import java.util.UUID;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class HelloController implements Initializable, Serializable {
 
     SqliteConnection sqliteConnection = new SqliteConnection();
+
+    public ObservableList<Record> getSampleList() {
+        return sampleList;
+    }
+
+    public void setSampleList(ObservableList<Record> sampleList) {
+        this.sampleList = sampleList;
+    }
 
     public ObservableList<Record> sampleList = FXCollections.observableArrayList();
     public FilteredList<Record> filteredList = new FilteredList<>(sampleList, p -> true);
@@ -55,6 +60,12 @@ public class HelloController implements Initializable, Serializable {
     @FXML
     private TableColumn<Record,Button> deleteCol;
 
+    @FXML
+    private TableColumn<Record,Button> editCol;
+
+    @FXML
+    private TableColumn<Record,String> objectIdCol;
+
 
     @FXML
     private ComboBox<String> containerType;
@@ -71,8 +82,8 @@ public class HelloController implements Initializable, Serializable {
     @FXML
     private TextField subHistory;
 
-    @FXML
-    private DatePicker contaminationDate;
+//    @FXML
+//    private DatePicker contaminationDate;
 
     @FXML
     private Button delete;
@@ -104,6 +115,11 @@ public class HelloController implements Initializable, Serializable {
 
     @FXML
     private MenuItem exitMenu;
+
+
+    public void getAdminAccess(String userName,String passWord){
+        System.out.println("Hello controller"+userName);
+    }
 
 
     @FXML
@@ -150,19 +166,31 @@ public class HelloController implements Initializable, Serializable {
         return sampleList;
     }
 
+    public void fetchDatabse() {
+        sampleList.clear();
+        System.out.println("11111111111");
+        System.out.println(sampleList);
+        sampleList.addAll(sqliteConnection.readFromDatabase(this));
+        sampleTable.setItems(sampleList);
+        System.out.println("222222222");
+        System.out.println(sampleList);
+    }
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
-        sampleList.addAll(sqliteConnection.readFromDatabase());
+        sampleList.addAll(sqliteConnection.readFromDatabase(this));
         sampleTable.setItems(sampleList);
 
 
-        ObservableList<String> containerType = FXCollections.observableArrayList("1","2","3","4");
+        ObservableList<String> containerType = FXCollections.observableArrayList("Tube","Jam jar Small","Jam jar Medium","Jam jar Large","Other");
         this.containerType.setItems(containerType);
 
-        ObservableList<String> filterByArray = FXCollections.observableArrayList("Container Type","Added Date","Media","Handler Person","Subculture History","Contamination Date");
+        ObservableList<String> filterByArray = FXCollections.observableArrayList("Container Type","Added Date","Media","Handler Person","Subculture History","Contamination Date","Object Id");
         this.filterBy.setItems(filterByArray);
 
+
+        objectIdCol.setCellValueFactory(new PropertyValueFactory<Record,String>("objectId"));
         containerCol.setCellValueFactory(new PropertyValueFactory<Record,String>("containerType"));
         addedDateCol.setCellValueFactory(new PropertyValueFactory<Record,String>("addedDate"));
         mediaCol.setCellValueFactory(new PropertyValueFactory<Record,String>("media"));
@@ -170,6 +198,8 @@ public class HelloController implements Initializable, Serializable {
         historyCol.setCellValueFactory(new PropertyValueFactory<Record,String>("subcultureHistory"));
         contaminationDateCol.setCellValueFactory(new PropertyValueFactory<Record,String>("contaminationDate"));
         deleteCol.setCellValueFactory(new PropertyValueFactory<Record,Button>("delete"));
+        editCol.setCellValueFactory(new PropertyValueFactory<Record,Button>("edit"));
+
 
 
 
@@ -180,7 +210,7 @@ public class HelloController implements Initializable, Serializable {
     @FXML
     private void addRecordBtnClicked() {
         LocalDate addedDateVal = addedDate.getValue();
-        LocalDate contaminationDateVal = contaminationDate.getValue();
+//        LocalDate contaminationDateVal = contaminationDate.getValue();
         String containerTypeVal = containerType.getValue();
         String mediaVal = media.getText();
         String handlerPersonVal = handlerPerson.getText();
@@ -190,12 +220,12 @@ public class HelloController implements Initializable, Serializable {
             AlertGenerate alertGenerate = new AlertGenerate();
             alertGenerate.alertShow("ERROR","Incomplete Form","Please complete relevant fields.");
         } else {
-            String uniqueID = UUID.randomUUID().toString();
+            String uniqueID = String.valueOf(new Random(System. currentTimeMillis()). nextInt(99999999));
 
-            Record newRecord = new Record(containerType.getValue(), addedDate.getValue().toString(), media.getText(), handlerPerson.getText(), subHistory.getText(), contaminationDate.getValue().toString(),uniqueID,new Button("Delete"));
+            Record newRecord = new Record(containerType.getValue(), addedDate.getValue().toString(), media.getText(), handlerPerson.getText(), subHistory.getText(),uniqueID,new Button("Delete"),new Button("Edit") ,this);
             sampleList.add(newRecord);
 
-            sqliteConnection.writeToDatabase(containerType.getValue(), addedDate.getValue().toString(), media.getText(), handlerPerson.getText(), subHistory.getText(), contaminationDate.getValue().toString(),uniqueID);
+            sqliteConnection.writeToDatabase(containerType.getValue(), addedDate.getValue().toString(), media.getText(), handlerPerson.getText(), subHistory.getText(),uniqueID);
 
             clearButtonClicked();
 
@@ -240,6 +270,10 @@ public class HelloController implements Initializable, Serializable {
                         filteredList.setPredicate(p -> p.getSubcultureHistory().toLowerCase().contains(newValue.toLowerCase().trim()));
                         sampleTable.setItems(filteredList);
                     }
+                    case "Object Id" -> {
+                        filteredList.setPredicate(p -> p.getObjectId().toLowerCase().contains(newValue.toLowerCase().trim()));
+                        sampleTable.setItems(filteredList);
+                    }
                 }
             });
         }
@@ -250,9 +284,9 @@ public class HelloController implements Initializable, Serializable {
         subHistory.clear();
         handlerPerson.clear();
         media.clear();
-        contaminationDate.setValue(null);
         addedDate.setValue(null);
-        containerType.valueProperty().set(null);
+        containerType.setValue(null);
+        containerType.setPromptText("SSS");
     }
 
 
