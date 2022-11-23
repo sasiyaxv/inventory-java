@@ -5,7 +5,6 @@ import javafx.collections.transformation.FilteredList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -17,7 +16,6 @@ import java.io.Serializable;
 import java.net.URL;
 import java.time.LocalDate;
 import java.util.*;
-import java.util.stream.Collectors;
 
 public class HelloController implements Initializable, Serializable {
 
@@ -116,6 +114,37 @@ public class HelloController implements Initializable, Serializable {
     @FXML
     private MenuItem exitMenu;
 
+    @FXML
+    private Button refreshBtn;
+
+    @FXML
+    private void refreshBtnClicked(){
+        fetchDatabase();
+    }
+
+
+    AdminUserSingleton adminUserSingleton = AdminUserSingleton.getInstance();
+
+
+
+
+    Stage stage = new Stage();
+    Scene scene = null;
+
+    public Stage getStage() {
+        return stage;
+    }
+
+
+    public void deleteRecordConfirmed(){
+        System.out.println("HELLO from delete pane"+adminUserSingleton.getObjectId());
+
+//        sqliteConnection.deleteRecord();
+
+    }
+
+
+
 
     public void getAdminAccess(String userName,String passWord){
         System.out.println("Hello controller"+userName);
@@ -145,17 +174,34 @@ public class HelloController implements Initializable, Serializable {
 
     }
 
-    public void adminMenuClicked(){
+    public void deleteBtnClicked(){
 
-        Stage stage = new Stage();
-        FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("admin-view.fxml"));
-        Scene scene = null;
+
+        FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("confirm-delete.fxml"));
+//        Scene scene = null;
         try {
             scene = new Scene(fxmlLoader.load());
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        stage.setTitle("Admin");
+        stage.setTitle("Confirm Delete");
+        stage.setScene(scene);
+        stage.show();
+
+
+    }
+
+    public void editBtnClicked(){
+
+
+        FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("admin-view.fxml"));
+//        Scene scene = null;
+        try {
+            scene = new Scene(fxmlLoader.load());
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        stage.setTitle("Edit Record");
         stage.setScene(scene);
         stage.show();
 
@@ -166,12 +212,14 @@ public class HelloController implements Initializable, Serializable {
         return sampleList;
     }
 
-    public void fetchDatabse() {
+    public void fetchDatabase() {
         sampleList.clear();
         System.out.println("11111111111");
         System.out.println(sampleList);
+
         sampleList.addAll(sqliteConnection.readFromDatabase(this));
         sampleTable.setItems(sampleList);
+
         System.out.println("222222222");
         System.out.println(sampleList);
     }
@@ -181,6 +229,11 @@ public class HelloController implements Initializable, Serializable {
 
         sampleList.addAll(sqliteConnection.readFromDatabase(this));
         sampleTable.setItems(sampleList);
+
+
+
+
+
 
 
         ObservableList<String> containerType = FXCollections.observableArrayList("Tube","Jam jar Small","Jam jar Medium","Jam jar Large","Other");
@@ -302,8 +355,3 @@ public class HelloController implements Initializable, Serializable {
 
 }
 
-
-
-//    protected void onHelloButtonClick() {
-//        welcomeText.setText("Welcome to JavaFX Application!");
-//    }

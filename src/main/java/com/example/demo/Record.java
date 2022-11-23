@@ -17,6 +17,10 @@ public class Record {
 
     private  HelloController helloController;
 
+    private ConfirmDeleteController confirmDelete;
+
+    AdminUserSingleton adminUserSingleton = AdminUserSingleton.getInstance();
+
 
     public Record(String containerType, String addedDate, String media, String handlerPerson, String subcultureHistory, String contaminationDate) {
         this.containerType = containerType;
@@ -51,25 +55,31 @@ public class Record {
 
         delete.setOnAction(e->{
 
-            this.helloController.adminMenuClicked();
+            this.helloController.deleteBtnClicked();
 
-            System.out.println("DELETE11111" + this.objectId );
-            deleteRecord(this.objectId);
-            this.helloController.fetchDatabse();
+            adminUserSingleton.setObjectId(objectId);
+
+//            System.out.println("DELETE11111" + this.objectId );
+//            deleteRecord(this.objectId);
+
+
+            this.helloController.fetchDatabase();
 
         });
 
 
 
         edit.setOnAction(e->{
-            this.helloController.adminMenuClicked();
+            this.helloController.editBtnClicked();
+
+            adminUserSingleton.setObjectId(objectId);
 
 
             System.out.println("Edit");
 
 
 
-            this.helloController.fetchDatabse();
+//            this.helloController.fetchDatabse();
         });
     }
 

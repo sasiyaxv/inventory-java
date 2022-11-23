@@ -80,6 +80,30 @@ public class SqliteConnection {
         return readList;
     }
 
+    public void editRecord(String objectId,String contaminationDate,String subcultureHistory){
+
+        String sql = "UPDATE samples SET contaminationDate=?,subcultureHistory=?  WHERE objectId=? " ;
+
+
+        try (Connection conn = this.connectDatabase();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+            pstmt.setString(1, contaminationDate);
+            pstmt.setString(2,subcultureHistory);
+            pstmt.setString(3,objectId);
+
+
+            pstmt.executeUpdate();
+            System.out.println("Updated");
+
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+
+
+
+    }
+
     public void deleteRecord(String objectId) {
         String sql = "DELETE FROM samples WHERE objectId= ?";
         try (Connection conn = this.connectDatabase();
@@ -97,7 +121,9 @@ public class SqliteConnection {
 
 
     public static void main(String[] args) {
+
 //        SqliteConnection sqliteConnection = new SqliteConnection();
+//        sqliteConnection.editRecord("46867c75-5d3a-4c32-acf6-fdbb5c6a6aa2","test22","test2");
 //        sqliteConnection.deleteRecord("70b496f8-8e81-4b87-800a-8b7f5332edf8");
 //        sqliteConnection.deleteRecord(1);
 //        sqliteConnection.readFromDatabase();

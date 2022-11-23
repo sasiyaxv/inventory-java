@@ -50,6 +50,7 @@
                      </HBox.margin></Button>
                </children>
             </HBox>
+            <Button fx:id="refreshBtn" mnemonicParsing="false" onAction="#refreshBtnClicked" prefHeight="25.0" prefWidth="245.0" text="Refresh" />
          </children>
          <BorderPane.margin>
             <Insets bottom="10.0" top="25.0" />
@@ -82,7 +83,7 @@
         <menus>
           <Menu mnemonicParsing="false" text="File">
             <items>
-              <MenuItem fx:id="adminMenu" mnemonicParsing="false" onAction="#adminMenuClicked" text="Admin" />
+              <MenuItem fx:id="adminMenu" mnemonicParsing="false" onAction="#deleteBtnClicked" text="Admin" />
                   <MenuItem fx:id="backupMenu" mnemonicParsing="false" onAction="#backupMenuClicked" text="Backup" />
                   <MenuItem fx:id="exitMenu" mnemonicParsing="false" onAction="#exitButtonClicked" text="Exit" />
             </items>
