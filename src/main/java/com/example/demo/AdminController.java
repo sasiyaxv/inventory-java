@@ -6,17 +6,13 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
-
 import java.io.IOException;
 import java.util.Objects;
 
 public class AdminController {
 
-    SqliteConnection sqliteConnection = new SqliteConnection();
-    HelloController helloController = new HelloController();
 
     @FXML
     private TextField userNameField;
@@ -24,22 +20,16 @@ public class AdminController {
     @FXML
     private TextField passWordField;
 
-    @FXML
-    private Button confirmBtn;
-
 
     public void switchToEditMode(ActionEvent event) throws IOException {
 
         String userName = userNameField.getText();
         String passWord = passWordField.getText();
 
-
-
-
+//        Add username and password here
         if (Objects.equals(userName, "admin") && Objects.equals(passWord, "admin")){
 
             Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("edit-view.fxml")));
-//        FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("edit-view.fxml"));
             Scene scene1 = new Scene(root);
             Stage stage1;
 
@@ -47,21 +37,10 @@ public class AdminController {
             stage1.setScene(scene1);
             stage1.show();
 
-            System.out.println("Stage switched");
         }
         else {
             AlertGenerate alertGenerate = new AlertGenerate();
-            alertGenerate.alertShow("ERROR","Wrong credentials","Error");
+            alertGenerate.alertShow("ERROR","Wrong credentials","Please enter correct details.");
         }
-
-
-
-
     }
-
-
-
-
-
-
 }

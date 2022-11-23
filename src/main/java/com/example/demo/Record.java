@@ -17,7 +17,6 @@ public class Record {
 
     private  HelloController helloController;
 
-    private ConfirmDeleteController confirmDelete;
 
     AdminUserSingleton adminUserSingleton = AdminUserSingleton.getInstance();
 
@@ -59,27 +58,15 @@ public class Record {
 
             adminUserSingleton.setObjectId(objectId);
 
-//            System.out.println("DELETE11111" + this.objectId );
-//            deleteRecord(this.objectId);
-
-
             this.helloController.fetchDatabase();
 
         });
-
-
 
         edit.setOnAction(e->{
             this.helloController.editBtnClicked();
 
             adminUserSingleton.setObjectId(objectId);
 
-
-            System.out.println("Edit");
-
-
-
-//            this.helloController.fetchDatabse();
         });
     }
 
@@ -98,13 +85,6 @@ public class Record {
 
     }
 
-    public void deleteRecord(String objectId){
-
-     sqliteConnection.deleteRecord(objectId);
-
-
-
-    }
 
     public Button getEdit() {
         return edit;

@@ -3,10 +3,7 @@ package com.example.demo;
 public class AdminUserSingleton {
 
     private static final AdminUserSingleton instance = new AdminUserSingleton();
-
-
     private String objectId;
-//    private String passWord;
 
     private String contaminationDate;
     private String subcultureHistory;
@@ -43,11 +40,4 @@ public class AdminUserSingleton {
         this.subcultureHistory = subcultureHistory;
     }
 
-    //    public String getPassWord() {
-//        return passWord;
-//    }
-
-//    public void setPassWord(String passWord) {
-//        this.passWord = passWord;
-//    }
 }

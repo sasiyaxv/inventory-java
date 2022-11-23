@@ -4,7 +4,6 @@ package com.example.demo;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
-import javafx.scene.control.Button;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
@@ -16,8 +15,6 @@ public class EditController {
     private DatePicker editContaminationDate;
     @FXML
     private TextField editSubcultureHistory;
-    @FXML
-    private Button confirmEditBtn;
 
 
     AdminUserSingleton adminUserSingleton = AdminUserSingleton.getInstance();

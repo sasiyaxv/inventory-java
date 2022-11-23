@@ -9,7 +9,6 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
-
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Serializable;
@@ -20,19 +19,9 @@ import java.util.*;
 public class HelloController implements Initializable, Serializable {
 
     SqliteConnection sqliteConnection = new SqliteConnection();
-
-    public ObservableList<Record> getSampleList() {
-        return sampleList;
-    }
-
-    public void setSampleList(ObservableList<Record> sampleList) {
-        this.sampleList = sampleList;
-    }
-
     public ObservableList<Record> sampleList = FXCollections.observableArrayList();
     public FilteredList<Record> filteredList = new FilteredList<>(sampleList, p -> true);
 
-    ArrayList<Record> backupList = new ArrayList<>();
 
     @FXML
     private TableView<Record> sampleTable;
@@ -80,18 +69,6 @@ public class HelloController implements Initializable, Serializable {
     @FXML
     private TextField subHistory;
 
-//    @FXML
-//    private DatePicker contaminationDate;
-
-    @FXML
-    private Button delete;
-
-    @FXML
-    private Button addRecordBtn;
-
-    @FXML
-    private Button clearBtn;
-
     @FXML
     private ComboBox filterBy;
 
@@ -102,54 +79,13 @@ public class HelloController implements Initializable, Serializable {
     private Button searchBtn;
 
 //    Menu
-    @FXML
-    private MenuBar menuBar;
-
-    @FXML
-    private MenuItem adminMenu;
-
-    @FXML
-    private MenuItem backupMenu;
-
-    @FXML
-    private MenuItem exitMenu;
-
-    @FXML
-    private Button refreshBtn;
 
     @FXML
     private void refreshBtnClicked(){
         fetchDatabase();
     }
-
-
-    AdminUserSingleton adminUserSingleton = AdminUserSingleton.getInstance();
-
-
-
-
     Stage stage = new Stage();
     Scene scene = null;
-
-    public Stage getStage() {
-        return stage;
-    }
-
-
-    public void deleteRecordConfirmed(){
-        System.out.println("HELLO from delete pane"+adminUserSingleton.getObjectId());
-
-//        sqliteConnection.deleteRecord();
-
-    }
-
-
-
-
-    public void getAdminAccess(String userName,String passWord){
-        System.out.println("Hello controller"+userName);
-    }
-
 
     @FXML
     private void exitButtonClicked(){
@@ -178,7 +114,6 @@ public class HelloController implements Initializable, Serializable {
 
 
         FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("confirm-delete.fxml"));
-//        Scene scene = null;
         try {
             scene = new Scene(fxmlLoader.load());
         } catch (IOException e) {
@@ -195,7 +130,6 @@ public class HelloController implements Initializable, Serializable {
 
 
         FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("admin-view.fxml"));
-//        Scene scene = null;
         try {
             scene = new Scene(fxmlLoader.load());
         } catch (IOException e) {
@@ -214,14 +148,8 @@ public class HelloController implements Initializable, Serializable {
 
     public void fetchDatabase() {
         sampleList.clear();
-        System.out.println("11111111111");
-        System.out.println(sampleList);
-
         sampleList.addAll(sqliteConnection.readFromDatabase(this));
         sampleTable.setItems(sampleList);
-
-        System.out.println("222222222");
-        System.out.println(sampleList);
     }
 
     @Override
@@ -230,18 +158,11 @@ public class HelloController implements Initializable, Serializable {
         sampleList.addAll(sqliteConnection.readFromDatabase(this));
         sampleTable.setItems(sampleList);
 
-
-
-
-
-
-
         ObservableList<String> containerType = FXCollections.observableArrayList("Tube","Jam jar Small","Jam jar Medium","Jam jar Large","Other");
         this.containerType.setItems(containerType);
 
         ObservableList<String> filterByArray = FXCollections.observableArrayList("Container Type","Added Date","Media","Handler Person","Subculture History","Contamination Date","Object Id");
         this.filterBy.setItems(filterByArray);
-
 
         objectIdCol.setCellValueFactory(new PropertyValueFactory<Record,String>("objectId"));
         containerCol.setCellValueFactory(new PropertyValueFactory<Record,String>("containerType"));
@@ -254,20 +175,14 @@ public class HelloController implements Initializable, Serializable {
         editCol.setCellValueFactory(new PropertyValueFactory<Record,Button>("edit"));
 
 
-
-
-
-
     }
 
     @FXML
     private void addRecordBtnClicked() {
         LocalDate addedDateVal = addedDate.getValue();
-//        LocalDate contaminationDateVal = contaminationDate.getValue();
         String containerTypeVal = containerType.getValue();
         String mediaVal = media.getText();
         String handlerPersonVal = handlerPerson.getText();
-        String subHistoryVal = subHistory.getText();
 
         if (containerTypeVal==null || addedDateVal==null || mediaVal ==null || handlerPersonVal==null){
             AlertGenerate alertGenerate = new AlertGenerate();
@@ -341,17 +256,5 @@ public class HelloController implements Initializable, Serializable {
         containerType.setValue(null);
         containerType.setPromptText("SSS");
     }
-
-
-
-
-
-
-
-
-
-
-
-
 }
 

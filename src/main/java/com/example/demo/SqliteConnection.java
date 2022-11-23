@@ -9,6 +9,27 @@ public class SqliteConnection {
 
     private  HelloController helloController;
 
+
+
+    public static void createNewDatabase(String fileName) {
+
+        String url = "jdbc:sqlite:/" + fileName;
+
+        try {
+            Connection conn = DriverManager.getConnection(url);
+            if (conn != null) {
+                DatabaseMetaData meta = conn.getMetaData();
+                System.out.println("The driver name is " + meta.getDriverName());
+                System.out.println("A new database has been created.");
+            }
+
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+
+
     public Connection connectDatabase() {
 
         Connection dbConnect = null;
@@ -16,7 +37,13 @@ public class SqliteConnection {
         try {
             Class.forName("org.sqlite.JDBC");
             dbConnect = DriverManager.getConnection("jdbc:sqlite:samples.db");
+
+
+
+
         } catch (Exception e) {
+
+            createNewDatabase("samples.db");
             System.err.println(e.getClass().getName() + ": " + e.getMessage());
             System.exit(0);
         }
@@ -91,17 +118,12 @@ public class SqliteConnection {
             pstmt.setString(1, contaminationDate);
             pstmt.setString(2,subcultureHistory);
             pstmt.setString(3,objectId);
-
-
             pstmt.executeUpdate();
             System.out.println("Updated");
 
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
-
-
-
     }
 
     public void deleteRecord(String objectId) {
@@ -111,22 +133,11 @@ public class SqliteConnection {
 
             pstmt.setString(1, objectId);
             pstmt.executeUpdate();
-            System.out.println("Deleted frm db");
+            System.out.println("Deleted frm database");
 
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
-
-    }
-
-
-    public static void main(String[] args) {
-
-//        SqliteConnection sqliteConnection = new SqliteConnection();
-//        sqliteConnection.editRecord("46867c75-5d3a-4c32-acf6-fdbb5c6a6aa2","test22","test2");
-//        sqliteConnection.deleteRecord("70b496f8-8e81-4b87-800a-8b7f5332edf8");
-//        sqliteConnection.deleteRecord(1);
-//        sqliteConnection.readFromDatabase();
 
     }
 }

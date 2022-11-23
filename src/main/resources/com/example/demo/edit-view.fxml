@@ -11,11 +11,11 @@
    <center>
       <VBox prefHeight="205.0" prefWidth="400.0" BorderPane.alignment="CENTER">
          <children>
-            <DatePicker fx:id="editContaminationDate" prefHeight="25.0" prefWidth="401.0">
+            <DatePicker fx:id="editContaminationDate" prefHeight="25.0" prefWidth="401.0" promptText="Contamination Date">
                <VBox.margin>
                   <Insets bottom="10.0" />
                </VBox.margin></DatePicker>
-            <TextField fx:id="editSubcultureHistory">
+            <TextField fx:id="editSubcultureHistory" promptText="Subculture History">
                <VBox.margin>
                   <Insets bottom="10.0" />
                </VBox.margin></TextField>
