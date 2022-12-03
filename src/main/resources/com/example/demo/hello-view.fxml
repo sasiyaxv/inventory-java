@@ -77,11 +77,11 @@
             <TableColumn fx:id="handlerCol" prefWidth="130.0" text="Handler" />
             <TableColumn fx:id="historyCol" prefWidth="130.0" text="Subculture history" />
             <TableColumn minWidth="0.0" prefWidth="0.0" text="Column X" />
-            <TableColumn fx:id="plantNameCol" prefWidth="78.5" text="Plant Name" />
-          <TableColumn fx:id="containerCol" prefWidth="120.0" text="Container type" />
-            <TableColumn fx:id="objectIdCol" prefWidth="201.7886962890625" text="Id" />
-            <TableColumn fx:id="contaminationDateCol" prefWidth="150.0" text="Contamination date" />
-            <TableColumn fx:id="editCol" prefWidth="75.0" text="Edit" />
+            <TableColumn fx:id="plantNameCol" prefWidth="106.5" text="Plant Name" />
+          <TableColumn fx:id="containerCol" prefWidth="128.0" text="Container type" />
+            <TableColumn fx:id="objectIdCol" prefWidth="120.0" text="Id" />
+            <TableColumn fx:id="contaminationDateCol" prefWidth="177.0" text="Contamination date" />
+            <TableColumn fx:id="editCol" prefWidth="94.0" text="Edit" />
             <TableColumn fx:id="deleteCol" prefWidth="84.0" text="Delete" />
         </columns>
          <BorderPane.margin>
