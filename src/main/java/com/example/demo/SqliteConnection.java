@@ -38,9 +38,6 @@ public class SqliteConnection {
             Class.forName("org.sqlite.JDBC");
             dbConnect = DriverManager.getConnection("jdbc:sqlite:samples.db");
 
-
-
-
         } catch (Exception e) {
 
             createNewDatabase("samples.db");
@@ -53,9 +50,9 @@ public class SqliteConnection {
 
     }
 
-    public void writeToDatabase(String containerType, String addedDate, String media, String handler, String subcultureHistory , String objectId
+    public void writeToDatabase(String containerType, String addedDate, String media, String handler, String subcultureHistory , String objectId, String plantName
     ) {
-        String sql = "INSERT INTO samples(containerType,addedDate,media,handler,subcultureHistory,objectId) VALUES(?,?,?,?,?,?)";
+        String sql = "INSERT INTO samples(containerType,addedDate,media,handler,subcultureHistory,objectId,plantName) VALUES(?,?,?,?,?,?,?)";
 
         try (Connection conn = this.connectDatabase();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
@@ -66,6 +63,7 @@ public class SqliteConnection {
             pstmt.setString(4, handler);
             pstmt.setString(5, subcultureHistory);
             pstmt.setString(6, objectId);
+            pstmt.setString(7,plantName);
 
             pstmt.executeUpdate();
         } catch (SQLException e) {
@@ -78,7 +76,7 @@ public class SqliteConnection {
 
         ObservableList<Record> readList = FXCollections.observableArrayList();
 
-        String sql = "SELECT containerType,addedDate,media,handler,subcultureHistory,contaminationDate,objectId FROM samples";
+        String sql = "SELECT containerType,addedDate,media,handler,subcultureHistory,contaminationDate,objectId,plantName FROM samples";
         try (Connection conn = this.connectDatabase();
              Statement stmt = conn.createStatement();
              ResultSet rs = stmt.executeQuery(sql)) {
@@ -92,9 +90,10 @@ public class SqliteConnection {
                 String subcultureHistory =  rs.getString("subcultureHistory");
                 String contaminationDate =  rs.getString("contaminationDate");
                 String objectId =  rs.getString("objectId");
+                String plantName = rs.getString("plantName");
 
 
-                Record record = new Record(containerType,addedDate,media,handler,subcultureHistory,contaminationDate,objectId,new Button("Delete"), helloController,new Button("Edit"));
+                Record record = new Record(containerType,addedDate,media,handler,subcultureHistory,contaminationDate,objectId,new Button("Delete"), helloController,new Button("Edit"),plantName);
                 readList.add(record);
 
 

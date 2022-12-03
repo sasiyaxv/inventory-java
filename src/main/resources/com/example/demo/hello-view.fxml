@@ -14,7 +14,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="832.0" prefWidth="1543.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.demo.HelloController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="832.0" prefWidth="1610.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.demo.HelloController">
    <left>
       <VBox prefHeight="779.0" prefWidth="242.0" spacing="20.0" BorderPane.alignment="CENTER">
          <children>
@@ -22,11 +22,16 @@
                <VBox.margin>
                   <Insets left="10.0" right="10.0" />
                </VBox.margin></ComboBox>
+            <TextField fx:id="plantNameField" layoutX="20.0" layoutY="103.0" promptText="Plant name">
+               <VBox.margin>
+                  <Insets left="10.0" right="10.0" />
+               </VBox.margin>
+            </TextField>
             <DatePicker fx:id="addedDate" prefHeight="26.0" prefWidth="247.0" promptText="Added date">
                <VBox.margin>
                   <Insets left="10.0" right="10.0" />
                </VBox.margin></DatePicker>
-            <TextField fx:id="media" promptText="Meida">
+            <TextField fx:id="media" promptText="Media">
                <VBox.margin>
                   <Insets left="10.0" right="10.0" />
                </VBox.margin></TextField>
@@ -65,17 +70,19 @@
       </VBox>
    </left>
    <center>
-      <TableView fx:id="sampleTable" prefHeight="580.0" prefWidth="847.0" BorderPane.alignment="CENTER">
+      <TableView fx:id="sampleTable" prefHeight="758.0" prefWidth="1206.0" BorderPane.alignment="CENTER">
         <columns>
-          <TableColumn fx:id="containerCol" prefWidth="120.0" text="Container type" />
           <TableColumn fx:id="addedDateCol" prefWidth="120.0" text="Added date" />
             <TableColumn fx:id="mediaCol" prefWidth="120.0" text="Media" />
             <TableColumn fx:id="handlerCol" prefWidth="130.0" text="Handler" />
             <TableColumn fx:id="historyCol" prefWidth="130.0" text="Subculture history" />
+            <TableColumn minWidth="0.0" prefWidth="0.0" text="Column X" />
+            <TableColumn fx:id="plantNameCol" prefWidth="78.5" text="Plant Name" />
+          <TableColumn fx:id="containerCol" prefWidth="120.0" text="Container type" />
+            <TableColumn fx:id="objectIdCol" prefWidth="201.7886962890625" text="Id" />
             <TableColumn fx:id="contaminationDateCol" prefWidth="150.0" text="Contamination date" />
             <TableColumn fx:id="editCol" prefWidth="75.0" text="Edit" />
             <TableColumn fx:id="deleteCol" prefWidth="84.0" text="Delete" />
-            <TableColumn fx:id="objectIdCol" prefWidth="130.0" text="Id" />
         </columns>
          <BorderPane.margin>
             <Insets left="10.0" right="10.0" />
@@ -107,7 +114,7 @@
       </MenuBar>
    </top>
    <right>
-      <VBox prefHeight="529.0" prefWidth="220.0" spacing="20.0" BorderPane.alignment="CENTER">
+      <VBox prefHeight="733.0" prefWidth="135.0" spacing="20.0" BorderPane.alignment="CENTER">
          <children>
             <HBox prefHeight="29.0" prefWidth="252.0">
                <children>

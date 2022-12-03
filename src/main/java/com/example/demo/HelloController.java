@@ -53,6 +53,9 @@ public class HelloController implements Initializable, Serializable {
     @FXML
     private TableColumn<Record,String> objectIdCol;
 
+    @FXML
+    private TableColumn<Record,String> plantNameCol;
+
 
     @FXML
     private ComboBox<String> containerType;
@@ -68,6 +71,9 @@ public class HelloController implements Initializable, Serializable {
 
     @FXML
     private TextField subHistory;
+
+    @FXML
+    private TextField plantNameField;
 
     @FXML
     private ComboBox filterBy;
@@ -161,7 +167,7 @@ public class HelloController implements Initializable, Serializable {
         ObservableList<String> containerType = FXCollections.observableArrayList("Tube","Jam jar Small","Jam jar Medium","Jam jar Large","Other");
         this.containerType.setItems(containerType);
 
-        ObservableList<String> filterByArray = FXCollections.observableArrayList("Container Type","Added Date","Media","Handler Person","Subculture History","Contamination Date","Object Id");
+        ObservableList<String> filterByArray = FXCollections.observableArrayList("Container Type","Added Date","Media","Handler Person","Subculture History","Contamination Date","Object Id","Plant Name");
         this.filterBy.setItems(filterByArray);
 
         objectIdCol.setCellValueFactory(new PropertyValueFactory<Record,String>("objectId"));
@@ -173,6 +179,8 @@ public class HelloController implements Initializable, Serializable {
         contaminationDateCol.setCellValueFactory(new PropertyValueFactory<Record,String>("contaminationDate"));
         deleteCol.setCellValueFactory(new PropertyValueFactory<Record,Button>("delete"));
         editCol.setCellValueFactory(new PropertyValueFactory<Record,Button>("edit"));
+        plantNameCol.setCellValueFactory(new PropertyValueFactory<Record,String>("plantName"));
+
 
 
     }
@@ -183,6 +191,7 @@ public class HelloController implements Initializable, Serializable {
         String containerTypeVal = containerType.getValue();
         String mediaVal = media.getText();
         String handlerPersonVal = handlerPerson.getText();
+        String plantName = plantNameField.getText();
 
         if (containerTypeVal==null || addedDateVal==null || mediaVal ==null || handlerPersonVal==null){
             AlertGenerate alertGenerate = new AlertGenerate();
@@ -190,10 +199,10 @@ public class HelloController implements Initializable, Serializable {
         } else {
             String uniqueID = String.valueOf(new Random(System. currentTimeMillis()). nextInt(99999999));
 
-            Record newRecord = new Record(containerType.getValue(), addedDate.getValue().toString(), media.getText(), handlerPerson.getText(), subHistory.getText(),uniqueID,new Button("Delete"),new Button("Edit") ,this);
+            Record newRecord = new Record(containerType.getValue(), addedDate.getValue().toString(), media.getText(), handlerPerson.getText(), subHistory.getText(),uniqueID,new Button("Delete"),new Button("Edit") ,this,plantName);
             sampleList.add(newRecord);
 
-            sqliteConnection.writeToDatabase(containerType.getValue(), addedDate.getValue().toString(), media.getText(), handlerPerson.getText(), subHistory.getText(),uniqueID);
+            sqliteConnection.writeToDatabase(containerType.getValue(), addedDate.getValue().toString(), media.getText(), handlerPerson.getText(), subHistory.getText(),uniqueID,plantName);
 
             clearButtonClicked();
 
@@ -252,6 +261,7 @@ public class HelloController implements Initializable, Serializable {
         subHistory.clear();
         handlerPerson.clear();
         media.clear();
+        plantNameField.clear();
         addedDate.setValue(null);
         containerType.setValue(null);
         containerType.setPromptText("SSS");

@@ -10,6 +10,8 @@ public class Record {
     private String subcultureHistory;
     private String contaminationDate;
 
+    private String plantName;
+
     private String objectId;
     private Button delete;
 
@@ -40,7 +42,7 @@ public class Record {
         this.delete = delete;
     }
 
-    public Record(String containerType, String addedDate, String media, String handlerPerson, String subcultureHistory, String contaminationDate, String objectId, Button delete, HelloController helloController,Button edit ) {
+    public Record(String containerType, String addedDate, String media, String handlerPerson, String subcultureHistory, String contaminationDate, String objectId, Button delete, HelloController helloController,Button edit,String plantName ) {
         this.containerType = containerType;
         this.addedDate = addedDate;
         this.media = media;
@@ -51,6 +53,7 @@ public class Record {
         this.delete = delete;
         this.helloController = helloController;
         this.edit = edit;
+        this.plantName = plantName;
 
         delete.setOnAction(e->{
 
@@ -72,7 +75,7 @@ public class Record {
 
     SqliteConnection sqliteConnection = new SqliteConnection();
 
-    public Record(String containerType, String addedDate, String media, String handlerPerson, String subcultureHistory, String objectId, Button delete, Button edit, HelloController helloController) {
+    public Record(String containerType, String addedDate, String media, String handlerPerson, String subcultureHistory, String objectId, Button delete, Button edit, HelloController helloController,String plantName) {
         this.containerType = containerType;
         this.addedDate = addedDate;
         this.media = media;
@@ -82,9 +85,14 @@ public class Record {
         this.delete = delete;
         this.edit = edit;
         this.helloController = helloController;
+        this.plantName = plantName;
 
     }
 
+
+    public String getPlantName() {
+        return plantName;
+    }
 
     public Button getEdit() {
         return edit;
