@@ -76,6 +76,9 @@ public class HelloController implements Initializable, Serializable {
     private TextField plantNameField;
 
     @FXML
+    private TextField noOfRecords;
+
+    @FXML
     private ComboBox filterBy;
 
     @FXML
@@ -192,22 +195,32 @@ public class HelloController implements Initializable, Serializable {
         String mediaVal = media.getText();
         String handlerPersonVal = handlerPerson.getText();
         String plantName = plantNameField.getText();
+        String recordAmount = noOfRecords.getText();
 
-        if (containerTypeVal==null || addedDateVal==null || mediaVal ==null || handlerPersonVal==null){
+         if (containerTypeVal==null || addedDateVal==null || mediaVal ==null || handlerPersonVal==null){
             AlertGenerate alertGenerate = new AlertGenerate();
             alertGenerate.alertShow("ERROR","Incomplete Form","Please complete relevant fields.");
-        } else {
-            String uniqueID = String.valueOf(new Random(System. currentTimeMillis()). nextInt(99999999));
-
-            Record newRecord = new Record(containerType.getValue(), addedDate.getValue().toString(), media.getText(), handlerPerson.getText(), subHistory.getText(),uniqueID,new Button("Delete"),new Button("Edit") ,this,plantName);
-            sampleList.add(newRecord);
-
-            sqliteConnection.writeToDatabase(containerType.getValue(), addedDate.getValue().toString(), media.getText(), handlerPerson.getText(), subHistory.getText(),uniqueID,plantName);
-
-            clearButtonClicked();
-
         }
 
+        if (recordAmount.isEmpty()){
+            System.out.println("Empty");
+            String uniqueID = String.valueOf(new Random(System. currentTimeMillis()). nextInt(9999));
+            Record newRecord = new Record(containerType.getValue(), addedDate.getValue().toString(), media.getText(), handlerPerson.getText(), subHistory.getText(),uniqueID,new Button("Delete"),new Button("Edit") ,this,plantName);
+            sampleList.add(newRecord);
+            sqliteConnection.writeToDatabase(containerType.getValue(), addedDate.getValue().toString(), media.getText(), handlerPerson.getText(), subHistory.getText(),uniqueID,plantName);
+
+        }
+        else {
+
+            for (int i=0;i< Integer.parseInt(recordAmount);i++){
+                String uniqueID = String.valueOf(new Random(System. currentTimeMillis()). nextInt(9999));
+                Record newRecord = new Record(containerType.getValue(), addedDate.getValue().toString(), media.getText(), handlerPerson.getText(), subHistory.getText(),uniqueID,new Button("Delete"),new Button("Edit") ,this,plantName);
+                sampleList.add(newRecord);
+                sqliteConnection.writeToDatabase(containerType.getValue(), addedDate.getValue().toString(), media.getText(), handlerPerson.getText(), subHistory.getText(),uniqueID,plantName);
+
+            }
+        }
+        clearButtonClicked();
 
     }
 
@@ -264,7 +277,8 @@ public class HelloController implements Initializable, Serializable {
         plantNameField.clear();
         addedDate.setValue(null);
         containerType.setValue(null);
-        containerType.setPromptText("SSS");
+        containerType.setPromptText("Type of container");
+        noOfRecords.clear();
     }
 }
 
